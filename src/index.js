@@ -2,7 +2,7 @@
  * @Author: 小方块 
  * @Date: 2021-12-21 16:30:35 
  * @Last Modified by: 小方块
- * @Last Modified time: 2021-12-21 23:02:48
+ * @Last Modified time: 2021-12-21 23:10:30
  * 
  * 入口文件 
  */
@@ -49,9 +49,8 @@ let testFnExcutionContext = new ExecutionContext(testFnLexicalEnvironment, globa
 ESCstack.push(testFnExcutionContext)
 ESCstack.current.LexicalEnvironment.createBinding('b')
 ESCstack.current.LexicalEnvironment.setBinding('b', undefined)
-
+// 开始执行
 ESCstack.current.LexicalEnvironment.setBinding('b', 2)
-
 
 console.log(
   ESCstack.current.LexicalEnvironment.GetIdentifierReference('a'),
