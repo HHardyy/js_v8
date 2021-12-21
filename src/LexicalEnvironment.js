@@ -2,7 +2,7 @@
  * @Author: 小方块 
  * @Date: 2021-12-21 16:58:05 
  * @Last Modified by: 小方块
- * @Last Modified time: 2021-12-21 17:37:21
+ * @Last Modified time: 2021-12-21 17:48:50
  * 
  * 词法环境
  *  
@@ -31,7 +31,7 @@ class LexicalEnvironment {
 
   // 获取变量的值
   getBindingValue(K) {
-    return this.environmentRecord.bindings[k]
+    return this.environmentRecord.bindings[K]
   }
 
   // 获取某个变量对应的值
