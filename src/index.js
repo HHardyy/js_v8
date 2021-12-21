@@ -2,7 +2,7 @@
  * @Author: 小方块 
  * @Date: 2021-12-21 16:30:35 
  * @Last Modified by: 小方块
- * @Last Modified time: 2021-12-21 23:10:30
+ * @Last Modified time: 2021-12-21 23:54:48
  * 
  * 入口文件 
  */
@@ -52,7 +52,57 @@ ESCstack.current.LexicalEnvironment.setBinding('b', undefined)
 // 开始执行
 ESCstack.current.LexicalEnvironment.setBinding('b', 2)
 
+// console.log(
+//   ESCstack.current.LexicalEnvironment.GetIdentifierReference('a'),
+//   ESCstack.current.LexicalEnvironment.GetIdentifierReference('b')
+// )
+
+
+/**
+ * =======================================================================================
+ * 如果遇到新的代码块， 创建一个新词法环境对象， 让新的词法环境对象.outer = 当前的词法环境
+ *
+ * 开始执行块级代码
+ * 只有全局函数才会创建新的执行上下文
+ * 块级作用域不会生成新的执行上下文，但是会生成新的词法环境
+*/
+let oldEnv = ESCstack.current.LexicalEnvironment
+// 以oldenv为父级词法环境创建词法环境
+let block1Env = LexicalEnvironment.NewDeclearactiveEnvironment(oldEnv)
+// block1的变量提升阶段
+block1Env.createBinding('c')
+block1Env.setBinding('c', { type: 'let', uninitialized: true })
+// 让当前执行上下文的词法环境对象指向block1Env
+ESCstack.current.LexicalEnvironment = block1Env
+
+// block1Env.getBindingValue("c")
+block1Env.setBinding('c', 3)
+// console.log(
+//   ESCstack.current.LexicalEnvironment.GetIdentifierReference('a'),
+//   ESCstack.current.LexicalEnvironment.GetIdentifierReference('b'),
+//   ESCstack.current.LexicalEnvironment.GetIdentifierReference('c')
+// )
+
+/**
+ * 执行完block1之后再退回上一个执行环境
+*/
+ESCstack.current.LexicalEnvironment = oldEnv
+
+let block2Env = LexicalEnvironment.NewDeclearactiveEnvironment(oldEnv)
+block1Env.createBinding('c')
+block1Env.setBinding('c', { type: 'let', uninitialized: true })
+ESCstack.current.LexicalEnvironment = block2Env
+block1Env.setBinding('c', 4)
 console.log(
   ESCstack.current.LexicalEnvironment.GetIdentifierReference('a'),
-  ESCstack.current.LexicalEnvironment.GetIdentifierReference('b')
+  ESCstack.current.LexicalEnvironment.GetIdentifierReference('b'),
+  ESCstack.current.LexicalEnvironment.GetIdentifierReference('c')
 )
+/**
+ * 执行完block1之后再退回上一个执行环境
+*/
+ESCstack.current.LexicalEnvironment = oldEnv
+// 弹出testFn执行上下文
+ESCstack.pop()
+
+// 然后那些block就被gc了~
