@@ -11,17 +11,17 @@ class EnvironmentRecords {
   constructor(bindings) {
     this.bindings = bindings || {}
   }
-  createBinding(K) {
-    this.bindings[K] = undefined
+  createBinding(N) {
+    this.bindings[N] = undefined
   }
-  setBinding(K, V) {
-    this.bindings[K] = V
+  setBinding(N, V) {
+    this.bindings[N] = V
   }
-  hasBindings(K) {
-    return K in this.bindings
+  hasBinding(N) {
+    return N in this.bindings
   }
-  getBindingValue(K) {
-    return this.bindings[K]
+  getBindingValue(N) {
+    return this.bindings[N]
   }
 }
 

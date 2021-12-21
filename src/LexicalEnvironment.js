@@ -2,50 +2,57 @@
  * @Author: 小方块 
  * @Date: 2021-12-21 16:58:05 
  * @Last Modified by: 小方块
- * @Last Modified time: 2021-12-21 17:48:50
+ * @Last Modified time: 2021-12-21 22:54:41
  * 
  * 词法环境
  *  
  */
+
+const DeclarativeEnvironmentRecords = require('./DeclarativeEnvironmentRecords')
+const ObjectEnvironmentRecords = require('./ObjectEnvironmentRecords')
 
 class LexicalEnvironment {
   constructor(environmentRecord /*管理记录项*/, outer /*外部词法环境*/) {
     this.environmentRecord = environmentRecord
     this.outer = outer
   }
-
   // 创建变量 || 登记变量
-  createBinding(K) {
-    this.environmentRecord.bindings[K] = undefined
+  createBinding(N) {
+    this.environmentRecord.createBinding(N)
   }
-
   // 设置变量的值
-  setBinding(K, V) {
-    this.environmentRecord.bindings[K] = V
+  setBinding(N, V) {
+    this.environmentRecord.setBinding(N, V)
   }
-
   // 判断某个变量是否登记过
-  hasBindings(K) {
-    return K in this.environmentRecord.bindings
+  hasBinding(N) {
+    return this.environmentRecord.hasBinding(N)
   }
-
   // 获取变量的值
-  getBindingValue(K) {
-    return this.environmentRecord.bindings[K]
+  getBindingValue(N) {
+    return this.environmentRecord.getBindingValue(N)
   }
-
   // 获取某个变量对应的值
-  getIdentifierReference(name) {
+  GetIdentifierReference(name) {
     let lexicalEnvironment = this
-
     do {
-      let exists = lexicalEnvironment.hasBindings(name)
+      let exists = lexicalEnvironment.hasBinding(name)
       if (exists) {
         return lexicalEnvironment.getBindingValue(name)
       } else {
         lexicalEnvironment = lexicalEnvironment.outer
       }
     } while (lexicalEnvironment)
+  }
+  static NewDeclearactiveEnvironment(outerLexicalEnvironment) {
+    let envRec = new DeclarativeEnvironmentRecords()
+    let env = new LexicalEnvironment(envRec, outerLexicalEnvironment)
+    return env
+  }
+  static NewObjectEnvironmentRecords(object, outerLexicalEnvironment) {
+    let envRec = new ObjectEnvironmentRecords(object)
+    let env = new LexicalEnvironment(envRec, outerLexicalEnvironment)
+    return env
   }
 }
 
