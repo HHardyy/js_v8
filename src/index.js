@@ -2,7 +2,7 @@
  * @Author: 小方块 
  * @Date: 2021-12-21 16:30:35 
  * @Last Modified by: 小方块
- * @Last Modified time: 2021-12-21 23:54:48
+ * @Last Modified time: 2021-12-22 22:27:03
  * 
  * 入口文件 
  */
@@ -89,10 +89,10 @@ block1Env.setBinding('c', 3)
 ESCstack.current.LexicalEnvironment = oldEnv
 
 let block2Env = LexicalEnvironment.NewDeclearactiveEnvironment(oldEnv)
-block1Env.createBinding('c')
-block1Env.setBinding('c', { type: 'let', uninitialized: true })
+block2Env.createBinding('c')
+block2Env.setBinding('c', { type: 'let', uninitialized: true })
 ESCstack.current.LexicalEnvironment = block2Env
-block1Env.setBinding('c', 4)
+block2Env.setBinding('c', 4)
 console.log(
   ESCstack.current.LexicalEnvironment.GetIdentifierReference('a'),
   ESCstack.current.LexicalEnvironment.GetIdentifierReference('b'),
